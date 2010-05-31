@@ -1,0 +1,58 @@
+name "parport"
+version "0.1"
+
+using_library "parport"
+
+task_context "Task" do
+    needs_configuration
+
+    property('port', '/std/string', "").
+        doc 'the device port'
+
+    input_port("pin0", "bool").
+        doc("Data for pin0").
+        static
+
+    input_port("pin1", "bool").
+        doc("Data for pin1").
+        static
+
+    input_port("pin2", "bool").
+        doc("Data for pin2").
+        static
+
+    input_port("pin3", "bool").
+        doc("Data for pin3").
+        static
+
+    input_port("pin4", "bool").
+        doc("Data for pin4").
+        static
+
+    input_port("pin5", "bool").
+        doc("Data for pin5").
+        static
+
+    input_port("pin6", "bool").
+        doc("Data for pin6").
+        static
+
+    input_port("pin7", "bool").
+        doc("Data for pin7").
+        static
+
+    port_driven 
+end
+
+deployment "test" do
+    do_not_install
+    parport = task("parport", "Task").
+        sequential
+
+    add_default_logger
+
+    if !corba_enabled?
+        browse parport
+    end
+end
+
