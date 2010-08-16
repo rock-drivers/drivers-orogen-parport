@@ -2,46 +2,79 @@ name "parport"
 version "0.1"
 
 using_library "parport"
+import_types_from "parportTypes.hh"
 
 task_context "Task" do
     needs_configuration
 
-    property('port', '/std/string', "").
+    property('device', '/std/string', "").
         doc 'the device port'
 
-    input_port("pin0", "bool").
+    input_port("pin0", "/parport/StateChange").
         doc("Data for pin0").
         static
 
-    input_port("pin1", "bool").
+    input_port("pin1", "/parport/StateChange").
         doc("Data for pin1").
         static
 
-    input_port("pin2", "bool").
+    input_port("pin2", "/parport/StateChange").
         doc("Data for pin2").
         static
 
-    input_port("pin3", "bool").
+    input_port("pin3", "/parport/StateChange").
         doc("Data for pin3").
         static
 
-    input_port("pin4", "bool").
+    input_port("pin4", "/parport/StateChange").
         doc("Data for pin4").
         static
 
-    input_port("pin5", "bool").
+    input_port("pin5", "/parport/StateChange").
         doc("Data for pin5").
         static
 
-    input_port("pin6", "bool").
+    input_port("pin6", "/parport/StateChange").
         doc("Data for pin6").
         static
 
-    input_port("pin7", "bool").
+    input_port("pin7", "/parport/StateChange").
         doc("Data for pin7").
         static
 
-    port_driven 
+    output_port("pin0out", "/parport/StateChange").
+        doc("Reflected data for pin0").
+        static
+
+    output_port("pin1out", "/parport/StateChange").
+        doc("Reflected data for pin1").
+        static
+
+    output_port("pin2out", "/parport/StateChange").
+        doc("Reflected data for pin2").
+        static
+
+    output_port("pin3out", "/parport/StateChange").
+        doc("Reflected data for pin3").
+        static
+
+    output_port("pin4out", "/parport/StateChange").
+        doc("Reflected data for pin4").
+        static
+
+    output_port("pin5out", "/parport/StateChange").
+        doc("Reflected data for pin5").
+        static
+
+    output_port("pin6out", "/parport/StateChange").
+        doc("Reflected data for pin6").
+        static
+
+    output_port("pin7out", "/parport/StateChange").
+        doc("Reflected data for pin7").
+        static
+
+    port_driven
 end
 
 deployment "test" do

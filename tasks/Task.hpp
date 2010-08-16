@@ -3,18 +3,21 @@
 
 #include "parport/TaskBase.hpp"
 #include <parport.hh>
+#include "parportTypes.hh"
 
 namespace parport
 {
     class Task : public TaskBase
     {
         friend class TaskBase;
-    
+
     protected:
         ParportDriver *m_driver;
 
     private:
-        void checkPin(RTT::InputPort< bool > &port, unsigned int pin);
+        void checkPin(RTT::InputPort< parport::StateChange > &port,
+		      RTT::OutputPort< parport::StateChange > &outport,
+		      unsigned int pin);
 
     public:
         Task(std::string const& name = "parport::Task");
