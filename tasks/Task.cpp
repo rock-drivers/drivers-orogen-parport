@@ -9,6 +9,44 @@ Task::Task(std::string const& name)
 {
 }
 
+Task::~Task() {
+    // delete all ports
+    for (PinMappings::const_iterator it = m_pin_mappings.begin(); it != m_pin_mappings.end(); ++it)
+    {
+	ports()->removePort(it->input->getName());
+	delete it->input;
+	ports()->removePort(it->output->getName());
+	delete it->output;
+    }
+}
+
+int Task::watch_pin(std::string const &name,
+		     int pin) {
+    // Check if there is no port named like this already
+    for (PinMappings::const_iterator it = m_pin_mappings.begin(); it != m_pin_mappings.end(); ++it)
+    {
+        if (it->name == name)
+            return false;
+	if (it->pin == pin) {
+	    //do we want to catch this?
+	}
+    }
+
+    // Create ports for both directions
+    RTT::OutputPort<parport::StateChange>* output_port =
+	new RTT::OutputPort<parport::StateChange>(name);
+    ports()->addPort(output_port);
+    RTT::InputPort<parport::StateChange>* input_port =
+	new RTT::InputPort<parport::StateChange>(name);
+    ports()->addEventPort(input_port);
+
+    // And register the mapping
+    PinMapping mapping = { name, pin, output_port, input_port};
+    m_pin_mappings.push_back(mapping);
+
+    return true;
+}
+
 bool Task::configureHook()
 {
     std::auto_ptr<ParportDriver> driver(new ParportDriver());
@@ -22,33 +60,21 @@ bool Task::configureHook()
     return true;
 }
 
-void Task::checkPin(RTT::InputPort< parport::StateChange > &inport,
-		    RTT::OutputPort< parport::StateChange > &outport,
-		    unsigned int pin)
-{
-    if (!inport.connected())
-        return;
-    parport::StateChange data;
-    if (!inport.read(data))
-        return;
-
-    data.time = base::Time::now();
-    if (data.rising)
-      m_driver->setDataPin(pin);
-    else
-      m_driver->resetDataPin(pin);
-
-    outport.write(data);
-}
-
 void Task::updateHook(std::vector<RTT::PortInterface *> const& updated_ports)
 {
-    checkPin(_pin0,_pin0out,0);
-    checkPin(_pin1,_pin1out,1);
-    checkPin(_pin2,_pin2out,2);
-    checkPin(_pin3,_pin3out,3);
-    checkPin(_pin4,_pin4out,4);
-    checkPin(_pin5,_pin5out,5);
-    checkPin(_pin6,_pin6out,6);
-    checkPin(_pin7,_pin7out,7);
+    for (PinMappings::const_iterator it = m_pin_mappings.begin(); it != m_pin_mappings.end(); ++it) {
+	if (!it->input->connected())
+	    continue;
+	parport::StateChange data;
+	if (!it->input->read(data))
+	    return;
+
+	data.time = base::Time::now();
+	if (data.rising)
+	    m_driver->setDataPin(it->pin);
+	else
+	    m_driver->resetDataPin(it->pin);
+
+	it->output->write(data);
+    }
 }

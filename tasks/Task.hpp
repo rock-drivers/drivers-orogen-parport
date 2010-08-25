@@ -3,6 +3,7 @@
 
 #include "parport/TaskBase.hpp"
 #include <parport.hh>
+#include <rtt/Ports.hpp>
 #include "parportTypes.hh"
 
 namespace parport
@@ -11,16 +12,24 @@ namespace parport
     {
         friend class TaskBase;
 
+    private:
+        struct PinMapping
+        {
+            std::string name;
+	    int pin;
+	    RTT::OutputPort<parport::StateChange>* output;
+	    RTT::InputPort<parport::StateChange>* input;
+	};
+        typedef std::vector<PinMapping> PinMappings;
+        PinMappings    m_pin_mappings;
     protected:
         ParportDriver *m_driver;
 
-    private:
-        void checkPin(RTT::InputPort< parport::StateChange > &port,
-		      RTT::OutputPort< parport::StateChange > &outport,
-		      unsigned int pin);
-
+	int watch_pin(std::string const &name,
+		      int pin);
     public:
         Task(std::string const& name = "parport::Task");
+	~Task();
 
         /** This hook is called by Orocos when the state machine transitions
          * from PreOperational to Stopped. If it returns false, then the

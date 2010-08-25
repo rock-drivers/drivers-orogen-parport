@@ -10,69 +10,16 @@ task_context "Task" do
     property('device', '/std/string', "").
         doc 'the device port'
 
-    input_port("pin0", "/parport/StateChange").
-        doc("Data for pin0").
-        static
+    dynamic_input_port(/w\w+/, "/parport/StateChange").
+        doc "port for writing pin events"
 
-    input_port("pin1", "/parport/StateChange").
-        doc("Data for pin1").
-        static
+    dynamic_output_port(/\w+/, "/parport/StateChange").
+        doc "port for reading written pin events"
 
-    input_port("pin2", "/parport/StateChange").
-        doc("Data for pin2").
-        static
-
-    input_port("pin3", "/parport/StateChange").
-        doc("Data for pin3").
-        static
-
-    input_port("pin4", "/parport/StateChange").
-        doc("Data for pin4").
-        static
-
-    input_port("pin5", "/parport/StateChange").
-        doc("Data for pin5").
-        static
-
-    input_port("pin6", "/parport/StateChange").
-        doc("Data for pin6").
-        static
-
-    input_port("pin7", "/parport/StateChange").
-        doc("Data for pin7").
-        static
-
-    output_port("pin0out", "/parport/StateChange").
-        doc("Reflected data for pin0").
-        static
-
-    output_port("pin1out", "/parport/StateChange").
-        doc("Reflected data for pin1").
-        static
-
-    output_port("pin2out", "/parport/StateChange").
-        doc("Reflected data for pin2").
-        static
-
-    output_port("pin3out", "/parport/StateChange").
-        doc("Reflected data for pin3").
-        static
-
-    output_port("pin4out", "/parport/StateChange").
-        doc("Reflected data for pin4").
-        static
-
-    output_port("pin5out", "/parport/StateChange").
-        doc("Reflected data for pin5").
-        static
-
-    output_port("pin6out", "/parport/StateChange").
-        doc("Reflected data for pin6").
-        static
-
-    output_port("pin7out", "/parport/StateChange").
-        doc("Reflected data for pin7").
-        static
+    method("watch_pin").
+        returns("int").
+        argument("name", "/std/string", "the name of the device/port").
+        argument("pin", "int", "the pin to modify on")
 
     port_driven
 end
