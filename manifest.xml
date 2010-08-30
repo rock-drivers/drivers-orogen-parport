@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+  <description brief="oroGen module for setting pins of the parport">
+        This oroGen component offers an integrated driver for access to the
+	parallel port, using the drivers/parport package.
+    </description>
+  <author>Pierre Willenbrock/Pierre.Willenbrock@dfki.de</author>
+  <copyright>
+        DFKI/robotik@dfki.de
+        Pierre Willenbrock/Pierre.Willenbrock@dfki.de
+  </copyright>
+  <license>GPL v2 or later</license>
+  <depend package="drivers/parport"/>
+  <depend package="orocos/base"/>
+  <depend package="orocos/orogen"/>
+  <depend package="orocos/rtt"/>
+</package>
