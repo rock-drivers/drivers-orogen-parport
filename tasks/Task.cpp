@@ -37,7 +37,7 @@ int Task::watch_pin(std::string const &name,
 	new RTT::OutputPort<parport::StateChange>(name);
     ports()->addPort(output_port);
     RTT::InputPort<parport::StateChange>* input_port =
-	new RTT::InputPort<parport::StateChange>(name);
+	new RTT::InputPort<parport::StateChange>("w"+name);
     ports()->addEventPort(input_port);
 
     // And register the mapping
