@@ -50,7 +50,7 @@ int Task::watch_pin(std::string const &name,
 bool Task::configureHook()
 {
     std::auto_ptr<ParportDriver> driver(new ParportDriver());
-    if ( !driver->open( _device.value() ) )
+    if ( !driver->open( _device.value(), _initial_pins.value() ) )
     {
         std::cerr << "Error opening device '" << _device.value() << "'" << std::endl;
         return false;

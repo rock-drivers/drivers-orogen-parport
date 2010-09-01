@@ -10,6 +10,9 @@ task_context "Task" do
     property('device', '/std/string', "").
         doc 'the device port'
 
+    property('initial_pins', 'int', 0).
+        doc 'the initial pin state as a bitmask'
+
     dynamic_input_port(/w\w+/, "/parport/StateChange").
         doc "port for writing pin events"
 
