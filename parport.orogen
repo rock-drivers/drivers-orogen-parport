@@ -19,8 +19,8 @@ task_context "Task" do
     dynamic_output_port(/\w+/, "/parport/StateChange").
         doc "port for reading written pin events"
 
-    method("watch_pin").
-        returns("int").
+    operation("watch_pin").
+        returns("bool").
         argument("name", "/std/string", "the name of the device/port").
         argument("pin", "int", "the pin to modify on")
 

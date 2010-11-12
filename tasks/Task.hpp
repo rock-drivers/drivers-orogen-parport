@@ -3,7 +3,8 @@
 
 #include "parport/TaskBase.hpp"
 #include <parport.hh>
-#include <rtt/Ports.hpp>
+#include <rtt/InputPort.hpp>
+#include <rtt/OutputPort.hpp>
 #include "parportTypes.hh"
 
 namespace parport
@@ -25,8 +26,7 @@ namespace parport
     protected:
         ParportDriver *m_driver;
 
-	int watch_pin(std::string const &name,
-		      int pin);
+	bool watch_pin(std::string const &name, int pin);
     public:
         Task(std::string const& name = "parport::Task");
 	~Task();
@@ -72,7 +72,7 @@ namespace parport
          * this call. If the trigger is caused by something different (for
          * instance, a periodic update), then this set is empty.
          */
-        void updateHook(std::vector<RTT::PortInterface*> const& updated_ports);
+        void updateHook();
 
         /** This hook is called by Orocos when the component is in the
          * RunTimeError state, at each activity step. See the discussion in

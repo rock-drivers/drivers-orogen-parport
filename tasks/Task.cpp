@@ -1,6 +1,5 @@
 #include "Task.hpp"
 
-using namespace RTT;
 using namespace std;
 using namespace parport;
 
@@ -20,8 +19,7 @@ Task::~Task() {
     }
 }
 
-int Task::watch_pin(std::string const &name,
-		     int pin) {
+bool Task::watch_pin(std::string const &name, int pin) {
     // Check if there is no port named like this already
     for (PinMappings::const_iterator it = m_pin_mappings.begin(); it != m_pin_mappings.end(); ++it)
     {
@@ -35,10 +33,10 @@ int Task::watch_pin(std::string const &name,
     // Create ports for both directions
     RTT::OutputPort<parport::StateChange>* output_port =
 	new RTT::OutputPort<parport::StateChange>(name);
-    ports()->addPort(output_port);
+    ports()->addPort(*output_port);
     RTT::InputPort<parport::StateChange>* input_port =
 	new RTT::InputPort<parport::StateChange>("w"+name);
-    ports()->addEventPort(input_port);
+    ports()->addEventPort(*input_port);
 
     // And register the mapping
     PinMapping mapping = { name, pin, output_port, input_port};
@@ -60,13 +58,12 @@ bool Task::configureHook()
     return true;
 }
 
-void Task::updateHook(std::vector<RTT::PortInterface *> const& updated_ports)
+void Task::updateHook()
 {
     for (PinMappings::const_iterator it = m_pin_mappings.begin(); it != m_pin_mappings.end(); ++it) {
-	if (!it->input->connected())
-	    continue;
 	parport::StateChange data;
-	if (!it->input->read(data))
+
+	if (it->input->flush(data) != RTT::NewData)
 	    return;
 
 	data.time = base::Time::now();

@@ -10,8 +10,8 @@
         Pierre Willenbrock/Pierre.Willenbrock@dfki.de
   </copyright>
   <license>GPL v2 or later</license>
+
   <depend package="drivers/parport"/>
-  <depend package="orocos/base"/>
-  <depend package="orocos/orogen"/>
-  <depend package="orocos/rtt"/>
+  <depend package="modules/base"/>
+  <depend package="orogen"/>
 </package>
