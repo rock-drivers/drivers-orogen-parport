@@ -1,6 +1,7 @@
 name "parport"
 version "0.1"
 
+import_types_from 'base'
 using_library "parport"
 import_types_from "parportTypes.hh"
 
