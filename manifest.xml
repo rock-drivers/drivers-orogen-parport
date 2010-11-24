@@ -12,6 +12,6 @@
   <license>GPL v2 or later</license>
 
   <depend package="drivers/parport"/>
-  <depend package="modules/base"/>
+  <depend package="base/orogen/types"/>
   <depend package="orogen"/>
 </package>
