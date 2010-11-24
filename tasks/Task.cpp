@@ -63,7 +63,7 @@ void Task::updateHook()
     for (PinMappings::const_iterator it = m_pin_mappings.begin(); it != m_pin_mappings.end(); ++it) {
 	parport::StateChange data;
 
-	if (it->input->flush(data) != RTT::NewData)
+	if (it->input->readNewest(data) != RTT::NewData)
 	    return;
 
 	data.time = base::Time::now();
