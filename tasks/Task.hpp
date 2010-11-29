@@ -5,7 +5,6 @@
 #include <parport.hh>
 #include <rtt/InputPort.hpp>
 #include <rtt/OutputPort.hpp>
-#include "parportTypes.hh"
 
 namespace parport
 {
