@@ -28,15 +28,3 @@ task_context "Task" do
     port_driven
 end
 
-deployment "test" do
-    do_not_install
-    parport = task("parport", "Task").
-        sequential
-
-    add_default_logger
-
-    if !corba_enabled?
-        browse parport
-    end
-end
-
