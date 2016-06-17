@@ -2,7 +2,7 @@
 #ifndef __PARPORTTYPES_HH__
 #define __PARPORTTYPES_HH__
 
-#include <base/time.h>
+#include <base/Time.hpp>
 
 namespace parport {
 
